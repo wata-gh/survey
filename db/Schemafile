@@ -1,0 +1,46 @@
+create_table "groups", force: :cascade do |t|
+  t.string   "name",        limit: 255
+  t.string   "description", limit: 255
+  t.datetime "created_at"
+  t.datetime "updated_at"
+end
+
+create_table "answers", force: :cascade do |t|
+  t.integer  "collaborator_id"
+  t.integer  "no"
+  t.text     "text"
+  t.datetime "created_at"
+  t.datetime "updated_at"
+end
+
+create_table "collaborators", force: :cascade do |t|
+  t.integer  "surveys_id"
+  t.string   "uuid",       limit: 36
+  t.boolean  "is_done",    default: false
+  t.datetime "created_at"
+  t.datetime "updated_at"
+end
+
+add_index "collaborators", ["surveys_id"], name: "index_collaborators_on_surveys_id"
+add_index "collaborators", ["uuid"], name: "index_collaborators_on_uuid"
+
+create_table "questions", force: :cascade do |t|
+  t.integer  "surveys_id"
+  t.string   "text"
+  t.integer  "type"
+  t.text     "value"
+  t.datetime "created_at"
+  t.datetime "updated_at"
+end
+
+add_index "questions", ["surveys_id"], name: "index_questions_on_surveys_id"
+
+create_table "surveys", force: :cascade do |t|
+  t.string   "name"
+  t.integer  "group_id"
+  t.datetime "created_at"
+  t.datetime "updated_at"
+  t.boolean  "is_result_secret",  default: false
+  t.boolean  "is_secret",  default: false
+  t.string   "hash_key"
+end
