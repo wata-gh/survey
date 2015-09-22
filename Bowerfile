@@ -3,3 +3,4 @@
 
 asset 'jquery'
 asset 'moment'
+asset 'handlebars'
