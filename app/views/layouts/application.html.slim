@@ -1,9 +1,38 @@
 doctype html
 html
   head
-    title Survey
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    meta[charset="UTF-8"]
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
     = csrf_meta_tags
+    title
+      | survey!
+    script
+      | var Survey = {};
   body
-    == yield
+    .ui.fixed.main.menu
+      .container
+        .title.item
+          = link_to '/' do
+            b
+              i.smile.icon
+              |  survey!
+      .right.menu
+        a.popup.icon.github.item[data-content="View project on GitHub" href="https://github.com/wata-gh/survey"]
+          i.alternate.github.icon
+    .main.container
+      - if flash[:alert].present?
+        .ui.negative.icon.message
+          i.warning.icon
+          i.close.icon
+          .content
+            .header
+              = flash[:alert]
+      - if flash[:notice].present?
+        .ui.positive.icon.message
+          i.checkmark.icon
+          i.close.icon
+          .content
+            .header
+              = flash[:notice]
+      = yield
