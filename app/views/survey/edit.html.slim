@@ -83,7 +83,9 @@ script#a-multiple-tmpl[type="text/x-handlebars-template"]
       </div>
     </div>
 script#q-tmpl[type="text/x-handlebars-template"]
-  | <div class="ui clearing segment" id="q-{{id}}">
+  | <div class="ui clearing segment question" id="q-{{id}}">
+      <input name="surveys[questions_attributes][][id]" type="hidden" value="{{id}}">
+      <input name="surveys[questions_attributes][][_destroy]" type="hidden" value="false">
       <div class="field {{text_error_class}}">
         <label>質問</label>
         <input name="surveys[questions_attributes][][text]" placeholder="質問" type="text" value="{{text}}">
@@ -145,9 +147,10 @@ script#q-tmpl[type="text/x-handlebars-template"]
       |  削除
 = include_gon
 script
-  | $(function() {Survey.Edit.init();});
-    $(function() {
+  | $(function() {
+      var edit = new SurveyEdit();
+      edit.init();
       $(gon.questions).each(function(i, v) {
-        Survey.question.add(v);
-      })
-    ;});
+        edit.add_question(v);
+      });
+    });

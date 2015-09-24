@@ -1,7 +1,16 @@
 class SurveyController < ApplicationController
-  before_action :find_survey, except: [:create]
+  before_action :find_survey, only: [:edit, :update, :show, :question, :answer]
 
   def index
+  end
+
+  def show
+    session[:uuid] ||= SecureRandom.uuid
+    @survey.collaborators.where(uuid: session[:uuid]).first_or_create
+    redirect_to survey_question_path(@survey, @survey.questions.where(no: 1).first)
+  end
+
+  def finish
   end
 
   def create
@@ -23,10 +32,12 @@ class SurveyController < ApplicationController
   end
 
   def update
-    halt 404 if @survey.is_secret && @survey.hash_key != params[:surveys][:hash_key]
     begin
       Surveys.transaction do
-        @survey.questions.destroy_all
+        params[:surveys].delete :hash_key
+        params[:surveys][:questions_attributes].each.with_index(1) do |q, i|
+          q[:no] = i
+        end
         @survey.update! survey_params
       end
       par = {:id => @survey.id}
@@ -56,11 +67,12 @@ class SurveyController < ApplicationController
 
   private
   def find_survey
-    @survey = Surveys.find params[:id]
+    @survey = Surveys.eager_load(:questions).find params[:id]
+    halt 404 if @survey.is_result_secret && @survey.hash_key != params[:surveys][:hash_key]
   end
 
   def survey_params
-    params.require(:surveys).permit(:name, :is_result_secret, :is_secret, questions_attributes: [:text, :type, :value])
+    params.require(:surveys).permit(:name, :is_result_secret, :is_secret, questions_attributes: [:id, :text, :type, :value, :no, :_destroy])
   end
 
   def set_questions
