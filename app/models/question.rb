@@ -23,6 +23,7 @@ class Question < ActiveRecord::Base
     'date'     => '日程を入力してください',
     'free'     => 'フリーフォーマット',
   }
+
   def type_name
     TYPE_NAME[self.type]
   end
@@ -111,6 +112,14 @@ class Question < ActiveRecord::Base
 
   def each_date
     self.value.split("\n").map(&:chomp)
+  end
+
+  def prev
+    @prev ||= Question.find_by surveys_id: self.surveys_id, no: self.no - 1
+  end
+
+  def next
+    @next ||= Question.find_by surveys_id: self.surveys_id, no: self.no + 1
   end
 
   protected

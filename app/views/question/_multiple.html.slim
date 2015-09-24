@@ -1,0 +1,5 @@
+- JSON.parse(@question.value, {:symbolize_names => true}).each.with_index(1) do |v, i|
+  .field
+    .ui.checkbox
+      = check_box_tag 'answer[text][]', v[:value], @answer.text.try(:'include?', v[:value]), {id: "q#{i}"}
+      label for=("q#{i}") = v[:text]

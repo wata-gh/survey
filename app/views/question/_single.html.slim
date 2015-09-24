@@ -1,0 +1,4 @@
+- JSON.parse(@question.value, {:symbolize_names => true}).each.with_index(1) do |v, i|
+  .sel
+    = radio_button_tag 'answer[text]', v[:value], @answer.text == v[:value], {id: "q#{i}"}
+    label for="q#{i}" = v[:text]

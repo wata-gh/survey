@@ -1,12 +1,12 @@
 class Surveys < ActiveRecord::Base
   belongs_to :group
-  has_many :questions, :dependent => :destroy, :autosave => true
+  has_many :questions, -> { order(:no) }, :dependent => :destroy, :autosave => true
   has_many :collaborators, :dependent => :destroy
   validates_presence_of :name
   validates_presence_of :questions, :on => :update
   paginates_per 10
   before_save :create_hash_key
-  accepts_nested_attributes_for :questions
+  accepts_nested_attributes_for :questions, :allow_destroy => true
 
   def create_hash_key
     if self.hash_key.blank?
