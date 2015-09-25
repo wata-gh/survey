@@ -15,7 +15,7 @@ class SurveyController < ApplicationController
   end
 
   def create
-    @survey = Surveys.new survey_params
+    @survey = @group.surveys.build survey_params
     if @survey.save
       flash[:success] = 'アンケート作成しました。'
       respond_to do |fmt|
@@ -68,7 +68,7 @@ class SurveyController < ApplicationController
 
   private
   def find_survey
-    @survey = Surveys.eager_load(:questions).find params[:id]
+    @survey = Surveys.current_group(request.subdomain).eager_load(:questions).find params[:id]
   end
 
   def check_result_secret

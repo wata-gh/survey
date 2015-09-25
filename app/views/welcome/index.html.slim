@@ -4,54 +4,64 @@ h1.ui.header
     i.plus.icon
     |  新規作成
 
-= paginate @surveys
-table.ui.basic.compact.table
-  thead
-    tr
-      th.one.wide
-        | no
-      th.two.wide
-        | 
-      th.seven.wide
-        | 名前
-      th.two.wide
-        | 作成
-      th.two.wide
-        | 更新
-      th.two.wide
-        | 編集
-      th.two.wide
-        | 結果
-  tbody
-    - @surveys.each do |s|
-      tr class="#{s.is_result_secret ? 'secret' : ''}"
-        td
-          = s.id
-        td
-          - if s.image?
-            = image_tag s.image, class: 'ui image tiny'
-        td
-          - if s.is_result_secret
-            i.lock.icon
-          - if s.questions.present?
-            = link_to(s.name, survey_path(s))
-          - else
-            = s.name
-        td.collapsing
-          = s.created_at.strftime '%Y-%m-%d %H:%M:%S'
-        td.collapsing
-          = time_ago_in_words s.updated_at
-          | 前
-        td.collapsing
-          - dis = s.is_result_secret ? ' disabled' : ''
-          = link_to ({:controller => :survey, :action => :edit, :id => s.id}), {:class => 'ui basic small button' + dis} do
-            i.pencil.icon
-            | 編集
-        td.collapsing
-          = link_to ({:controller => :survey, :action => :result, :id => s.id}), {:class => 'ui basic small button' + dis} do
-            i.bar.chart.icon
-            | 結果
-= paginate @surveys
+- if @surveys.present?
+  = paginate @surveys
+  table.ui.basic.compact.table
+    thead
+      tr
+        th.one.wide
+          | no
+        th.two.wide
+          | 
+        th.seven.wide
+          | 名前
+        th.two.wide
+          | 作成
+        th.two.wide
+          | 更新
+        th.two.wide
+          | 編集
+        th.two.wide
+          | 結果
+    tbody
+      - @surveys.each do |s|
+        tr class="#{s.is_result_secret ? 'secret' : ''}"
+          td
+            = s.id
+          td
+            - if s.image?
+              = image_tag s.image, class: 'ui image tiny'
+          td
+            - if s.is_result_secret
+              i.lock.icon
+            - if s.questions.present?
+              = link_to(s.name, survey_path(s))
+            - else
+              = s.name
+          td.collapsing
+            = s.created_at.strftime '%Y-%m-%d %H:%M:%S'
+          td.collapsing
+            = time_ago_in_words s.updated_at
+            | 前
+          td.collapsing
+            - dis = s.is_result_secret ? ' disabled' : ''
+            = link_to ({:controller => :survey, :action => :edit, :id => s.id}), {:class => 'ui basic small button' + dis} do
+              i.pencil.icon
+              | 編集
+          td.collapsing
+            = link_to ({:controller => :survey, :action => :result, :id => s.id}), {:class => 'ui basic small button' + dis} do
+              i.bar.chart.icon
+              | 結果
+  = paginate @surveys
+- else
+  .ui.info.message
+    .header
+      | アンケートは1件もありませんでした。
+    p
+      button.ui.small.new.primary.button
+        i.plus.icon
+        | 新規作成
+      | からアンケートを作成しましょう！
 .ui.modal.reg
   i.close.icon
   .header
