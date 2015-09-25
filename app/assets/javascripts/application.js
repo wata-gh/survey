@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require semantic_ui/semantic_ui
 //= require handlebars/handlebars.min
+//= require highcharts/highcharts
 //= require_tree .

@@ -1,5 +1,6 @@
 class SurveyController < ApplicationController
-  before_action :find_survey, only: [:edit, :update, :show, :question, :answer]
+  before_action :find_survey, only: [:edit, :update, :show, :question, :answer, :result]
+  before_action :check_result_secret, only: [:edit, :update, :result]
 
   def index
   end
@@ -42,7 +43,7 @@ class SurveyController < ApplicationController
       end
       par = {:id => @survey.id}
       par[:hash_key] = @survey.hash_key if @survey.is_secret
-      redirect_to ({action: 'edit'}), notice: '更新に成功しました。'
+      redirect_to ({action: 'edit', hash_key: @survey.hash_key}), notice: '更新に成功しました。'
     rescue
       set_questions
       render action: 'edit'
@@ -68,7 +69,10 @@ class SurveyController < ApplicationController
   private
   def find_survey
     @survey = Surveys.eager_load(:questions).find params[:id]
-    halt 404 if @survey.is_result_secret && @survey.hash_key != params[:surveys][:hash_key]
+  end
+
+  def check_result_secret
+    head 404 if @survey.is_result_secret && @survey.hash_key != params[:hash_key]
   end
 
   def survey_params

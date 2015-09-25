@@ -9,15 +9,15 @@ h2.ui.header
   - d = ans['date']
   .field
       .ui.mini.horizontal.statistic
-        .value
+        .value.candidate-date
           | #{v}
         .label
-          .three.ui.buttons data-value="#{v}"
-            a class="ui huge basic toggle green button#{d[v] == '2' ? ' active' : ''}" data-val="2"
+          .ui.basic.buttons data-value="#{v}"
+            button type="button" class="ui huge toggle basic button#{d[v] == '2' ? ' active' : ''}" data-val="2"
               | ○
-            a class="ui huge basic toggle yellow button#{d[v] == '1' ? ' active' : ''}" data-val="1"
+            button type="button" class="ui huge toggle basic button#{d[v] == '1' ? ' active' : ''}" data-val="1"
               | △
-            a class="ui huge basic toggle grey button#{d[v] == '0' ? ' active' : ''}" data-val="0"
+            button type="button" class="ui huge toggle basic button#{d[v] == '0' ? ' active' : ''}" data-val="0"
               | ☓
             input type="hidden" name="#{v}" value="#{d[v]}"
 h2.ui.header

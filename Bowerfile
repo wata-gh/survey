@@ -4,3 +4,4 @@
 asset 'jquery'
 asset 'moment'
 asset 'handlebars'
+asset 'highcharts'

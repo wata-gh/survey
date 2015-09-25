@@ -44,4 +44,11 @@ body {
   .completed.step {
     cursor: pointer;
   }
+  .candidate-date {
+    width: 150px;
+    text-align: left;
+  }
+  .collaborated {
+    float: right;
+  }
 }
