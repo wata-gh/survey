@@ -7,8 +7,6 @@ html
     = csrf_meta_tags
     title
       | survey!
-    script
-      | var Survey = {};
   body
     .ui.fixed.main.menu
       .container
@@ -18,6 +16,10 @@ html
               i.smile.icon
               |  survey!
       .right.menu
+        .item
+          .ui.teal.button
+            i.smile.icon
+            | お申し込みはこちら
         a.popup.icon.github.item[data-content="View project on GitHub" href="https://github.com/wata-gh/survey"]
           i.alternate.github.icon
     .main.container

@@ -35,6 +35,10 @@ gem 'kaminari'
 
 gem 'gon'
 
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
+gem 'fog'
+gem 'rmagick'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

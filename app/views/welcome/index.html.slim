@@ -10,7 +10,9 @@ table.ui.basic.compact.table
     tr
       th.one.wide
         | no
-      th.nine.wide
+      th.two.wide
+        | 
+      th.seven.wide
         | 名前
       th.two.wide
         | 作成
@@ -25,6 +27,9 @@ table.ui.basic.compact.table
       tr class="#{s.is_result_secret ? 'secret' : ''}"
         td
           = s.id
+        td
+          - if s.image?
+            = image_tag s.image, class: 'ui image tiny'
         td
           - if s.is_result_secret
             i.lock.icon
