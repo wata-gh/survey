@@ -9,7 +9,7 @@ h1.ui.header
     i.trash.outline.icon
     |  削除
   = form_for @survey, url: {action: 'destroy'}, html: {id: 'destroy-form', method: 'delete'} do |f|
-    = f.hidden_field :hash_key
+    = hidden_field_tag :hash_key, @survey.hash_key
 - if @survey.errors.present?
   .ui.negative.icon.message
     i.warning.icon
@@ -23,10 +23,10 @@ h1.ui.header
     .header
       |  以下のアクセス用URLはメモしておかないとアクセス出来なくなります。
     p
-      = link_to edit_survey_path(@survey), {class: "ui basic button"}
+      = link_to edit_survey_path(@survey, hash_key: @survey.hash_key ), {class: "ui basic button"}
         i.pencil.icon
         |  編集用URL
-      = link_to result_survey_path(@survey), {class: "ui basic button"}
+      = link_to result_survey_path(@survey, hash_key: @survey.hash_key), {class: "ui basic button"}
         i.bar.chart.icon
         |  結果用URL
 = form_for @survey, url: { action: 'update'}, html: {:class => 'ui form fluid attached segment', :id => 'form'} do |f|
@@ -43,7 +43,7 @@ h1.ui.header
       | 非公開
     .ui.checkbox
       = f.check_box :is_result_secret
-      = f.hidden_field :hash_key
+      = hidden_field_tag :hash_key, @survey.hash_key
   h4.ui.horizontal.divider.header
     i.comment.icon
     |  質問

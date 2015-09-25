@@ -1,0 +1,223 @@
+.ui.four.column.grid
+  .column
+    .ui.fluid.card
+      .content
+        .header 回答者数
+        .description
+        .ui.tiny.statistic
+          .value
+            i class="users icon"
+            = @survey.collaborators.where(status: 1).size
+            | 人
+          .label
+  .column
+    .ui.fluid.card
+      .content
+        .header 質問数
+        .description
+        .ui.tiny.statistic
+          .value
+            i class="help icon"
+            = @survey.questions.size
+            | 問
+            .label
+h4 class="ui horizontal divider header"
+  i class="file text outline icon"
+  | アンケート情報
+h1 class="ui header"
+  = @survey.name
+  - if @survey.is_secret
+    a class="ui yellow label"
+    | SECRET
+h4 class="ui horizontal divider header"
+  i class="comment icon"
+  | 質問、回答結果
+- @survey.questions.each.with_index(1) do |q, i|
+  .ui.divider
+  .ui.stackable.grid
+    .ui.six.wide.column
+      .ui.fluid.blue.card
+        .content
+          .header
+            span class="q-num"
+              | Q#{i}.
+            = q.text
+        - if q.single? || q.multiple? || q.date?
+          .content
+            .ui.list
+              - q.choices.each do |v|
+                .item
+                  = q.date? ? v : v[:value]
+                  = q.date? ? '' : v[:text]
+        .extra.content
+          span
+            i class="checkmark icon"
+            = q.type_name
+    .ui.ten.wide.column
+      .ui.fluid.card style="overflow: auto;"
+        .content
+          - if q.single?
+            div id="container#{i}"
+            script
+              | $(function () {
+                  $('#container#{i}').highcharts({
+                    chart: {
+                      plotBackgroundColor: null,
+                      plotBorderWidth: null,
+                      plotShadow: false,
+                      type: 'pie'
+                    },
+                    title: {
+                      text: '#{q.text}'
+                    },
+                    subtitle: {
+                      text: ''
+                    },
+                    xAxis: {
+                      categories: [
+                        #{q.choices.map {|c| "'#{c[:text]}'"}.join(',').html_safe}
+                      ],
+                      crosshair: true
+                    },
+                    yAxis: {
+                      min: 0,
+                      allowDecimals: false,
+                      title: {
+                        text: '回答数'
+                      }
+                    },
+                    tooltip: {
+                      headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                      pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y} 件</b></td></tr>',
+                      footerFormat: '</table>',
+                      shared: true,
+                      useHTML: true
+                    },
+                    plotOptions: {
+                      pie: {
+                          allowPointSelect: true,
+                          cursor: 'pointer',
+                          dataLabels: {
+                              enabled: true,
+                              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                              style: {
+                                  color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                              }
+                          }
+                      }
+                    },
+                    series: [
+                      {
+                        name: '回答数',
+                        data: #{q.sel_sum(i).to_json.html_safe}
+                      }
+                    ]
+                  });
+                });
+          - elsif q.multiple?
+              div id="container#{i}"
+              script
+                | $(function () {
+                    $('#container#{i}').highcharts({
+                      chart: {
+                        type: 'column'
+                      },
+                      colors: ['#21ba45'],
+                      title: {
+                        text: '#{q.text}'
+                      },
+                      subtitle: {
+                        text: ''
+                      },
+                      xAxis: {
+                        categories: [
+                          #{q.choices.map {|c| "'#{c[:text]}'"}.join(',').html_safe}
+                        ],
+                        crosshair: true
+                      },
+                      yAxis: {
+                        min: 0,
+                        allowDecimals: false,
+                        title: {
+                          text: '回答数'
+                        }
+                      },
+                      tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} 件</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                      },
+                      plotOptions: {
+                        column: {
+                          pointPadding: 0.2,
+                          borderWidth: 0
+                        }
+                      },
+                      series: [
+                        {
+                          name: '回答数',
+                          data: #{q.sel_sum(i).to_json.html_safe}
+                        }
+                      ]
+                    });
+                  });
+          - elsif q.date?
+            div id="container#{i}"
+            script
+              | $(function () {
+                  $('#container#{i}').highcharts({
+                    chart: {
+                        type: 'bar'
+                    },
+                    colors: ['#b5cc18','#21ba45'],
+                    title: {
+                        text: '#{q.text}'
+                    },
+                    xAxis: {
+                      categories: #{q.choices.to_json.html_safe}
+                    },
+                    yAxis: {
+                        min: 0,
+                        allowDecimals: false,
+                        title: {
+                            text: '集計結果'
+                        }
+                    },
+                    legend: {
+                        reversed: true
+                    },
+                    plotOptions: {
+                        series: {
+                          stacking: 'normal'
+                        }
+                    },
+                    series: #{q.sel_sum(i).to_json.html_safe}
+                  });
+                });
+            table class="ui compact celled unstackable table"
+              thead
+                tr
+                  th 日付
+                  - q.answers.each do |a|
+                    th class="collapsing"
+                      = JSON.parse(a.text)['name']
+              tbody
+                - q.choices.each.with_index do |v, j|
+                  tr
+                    td = v
+                    - q.answers.each do |a|
+                      td
+                        = {'2' => '○', '1' => '△', '0' => '☓'}[JSON.parse(a.text)['date'][v]]
+                tr
+                  td
+                  - q.answers.each do |a|
+                    td
+                      = JSON.parse(a.text)['comment']
+          - elsif q.free?
+            .ui.relaxed.divided.list
+              - q.answers.select {|a| a.text.present? }.each do |a|
+                .item
+                  .content
+                    = a.text

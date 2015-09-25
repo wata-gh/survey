@@ -1,6 +1,7 @@
 class Question < ActiveRecord::Base
   self.inheritance_column = :_type_disabled
   belongs_to :surveys
+  has_many :answers
   validates_presence_of :text
   validate :json_format
   enum :type => {
@@ -50,7 +51,7 @@ class Question < ActiveRecord::Base
     elsif self.multiple?
       s = {}
       self.choices.each {|c| s[c[:value].to_s] = 0}
-      self.answers(i).each do |a|
+      self.answers.joins(:collaborator).where(collaborators: {status: 1}).each do |a|
         begin
           JSON.parse(a.text).each {|v| s[v] += 1}
         rescue
@@ -81,10 +82,6 @@ class Question < ActiveRecord::Base
       end
     end
     r
-  end
-
-  def answers i
-    Answer.where(:surveys_id => self.surveys_id, :no => i)
   end
 
   def error_class
