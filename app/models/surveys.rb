@@ -8,6 +8,7 @@ class Surveys < ActiveRecord::Base
   paginates_per 10
   before_save :create_hash_key
   accepts_nested_attributes_for :questions, :allow_destroy => true
+  mount_uploader :image, SurveyUploader
 
   def create_hash_key
     if self.hash_key.blank?

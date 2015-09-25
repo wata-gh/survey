@@ -30,6 +30,7 @@ create_table "questions", force: :cascade do |t|
   t.string   "text",       limit: 255
   t.integer  "type",       limit: 4
   t.text     "value",      limit: 65535
+  t.string   "image",      limit: 255
   t.datetime "created_at"
   t.datetime "updated_at"
 end
@@ -38,6 +39,7 @@ add_index "questions", ["surveys_id"], name: "index_questions_on_surveys_id", us
 
 create_table "surveys", force: :cascade do |t|
   t.string   "name",             limit: 255
+  t.string   "image",            limit: 255
   t.integer  "group_id",         limit: 4
   t.datetime "created_at"
   t.datetime "updated_at"

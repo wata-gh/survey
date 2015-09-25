@@ -60,3 +60,4 @@ class @SurveyEdit
   add_question: (v) =>
     $('#add-q-pos').append(@q_h v)
     $('select').dropdown()
+    $('select[name^="surveys[questions_attributes]"]', '#q-' + v.id).trigger('change', [true])
