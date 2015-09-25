@@ -17,6 +17,9 @@ dependencies:
     - "vendor/bundle"
   override:
     - bundle -j4 --path=vendor/bundle
+test:
+  override:
+    - echo SKIP TEST
 deployment:
   production:
     branch: master
