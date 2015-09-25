@@ -1,0 +1,33 @@
+machine:
+  timezone:
+    Asia/Tokyo
+  ruby:
+    version:
+      2.2.3
+  services:
+    - mysql
+  environment: # setting here
+    TERM: dumb
+    CIRCLE_ENV: test
+    DB_URL: jdbc:mysql://localhost/circle_test
+    DB_USER: ubuntu
+    DB_PASSWORD:
+dependencies:
+  cache_directories:
+    - "vendor/bundle"
+  override:
+    - bundle -j4 --path=vendor/bundle
+deployment:
+  production:
+    branch: master
+    codedeploy:
+      survey:
+        application_root: /
+        revision_location:
+          revision_type: S3
+          s3_location:
+            bucket: survey-circle-ci-revisions
+            key_pattern: apps/survey-{SHORT_COMMIT}-{BUILD_NUM}
+        region: ap-northeast-1
+        deployment_group: survey-dg
+        deployment_config: CodeDeployDefault.AllAtOnce
