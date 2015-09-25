@@ -3,6 +3,7 @@ class Surveys < ActiveRecord::Base
   has_many :questions, -> { order(:no) }, :dependent => :destroy, :autosave => true
   has_many :collaborators, :dependent => :destroy
   scope :my_collab, ->(uuid) { where(collaborators: {uuid: uuid}) }
+  scope :current_group, ->(subdomain) { joins(:group).where(groups: {name: subdomain}) }
   validates_presence_of :name
   validates_presence_of :questions, :on => :update
   paginates_per 10

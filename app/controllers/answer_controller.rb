@@ -1,6 +1,6 @@
 class AnswerController < ApplicationController
   def create
-    s = Surveys.eager_load(:questions, :collaborators).find_by({
+    s = Surveys.current_group(request.subdomain).eager_load(:questions, :collaborators).find_by({
       id: params[:survey_id],
       questions: {
         id: params[:question_id]
@@ -13,7 +13,6 @@ class AnswerController < ApplicationController
     c = s.collaborators.first
 
     if q.date?
-      p params
       t = {}
       q.each_date.each {|d| t[d] = params[d]}
       params[:answer] = {
@@ -23,7 +22,6 @@ class AnswerController < ApplicationController
           date:    t,
         }.to_json
       }
-      p params
     end
 
     a = c.answers.where(question_id: q.id).first_or_initialize answer_params
@@ -43,8 +41,5 @@ class AnswerController < ApplicationController
 
   def answer_params
     params.require(:answer).permit :text
-  end
-
-  def save_answer
   end
 end
