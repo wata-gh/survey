@@ -11,7 +11,7 @@ permissions:
     mode: 755
 hooks:
   AfterInstall:
-    - location: scripts/codedeploy_bundle
+    - location: script/codedeploy_bundle
       timeout: 300
       runas: root
   ApplicationStart:
