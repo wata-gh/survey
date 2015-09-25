@@ -1,0 +1,178 @@
+style
+  | .fields label:first-of-type { display: block; }
+h1.ui.header
+  | アンケート内容編集
+  - if @survey.is_result_secret
+    a.ui.yellow.label
+      | SECRET
+  button class="ui red button right floated del" data-sid="#{@survey.id}"
+    i.trash.outline.icon
+    |  削除
+  = form_for @survey, url: {action: 'destroy'}, html: {id: 'destroy-form', method: 'delete', multipart: true} do |f|
+    = hidden_field_tag :hash_key, @survey.hash_key
+- if @survey.errors.present?
+  .ui.negative.icon.message
+    i.warning.icon
+    i.close.icon
+    .content
+      .header
+      - @survey.errors.full_messages.each do |msg|
+        li #{msg}
+- if @survey.is_result_secret
+  .ui.top.attached.warning.message
+    .header
+      |  以下のアクセス用URLはメモしておかないとアクセス出来なくなります。
+    p
+      = link_to edit_survey_path(@survey, hash_key: @survey.hash_key ), {class: "ui basic button"}
+        i.pencil.icon
+        |  編集用URL
+      = link_to result_survey_path(@survey, hash_key: @survey.hash_key), {class: "ui basic button"}
+        i.bar.chart.icon
+        |  結果用URL
+= form_for @survey, url: { action: 'update'}, html: {:class => 'ui form fluid attached segment', :id => 'form'} do |f|
+  h4.ui.horizontal.divider.header
+    i.file.text.outline.icon
+    |  アンケート情報
+  - error = @survey.errors.include?(:name)
+  div class="field#{error ? ' error' : ''}"
+    label
+      | アンケート名
+      = f.text_field :name
+  .field
+    label
+      | 非公開
+    .ui.checkbox
+      = f.check_box :is_result_secret
+      = hidden_field_tag :hash_key, @survey.hash_key
+  .field
+    label
+      | 画像
+    = f.file_field :image
+    - if @survey.image?
+      .ui.grid
+        .four.wide.column
+        .eight.wide.column
+          .image
+            = image_tag @survey.image, class: 'ui fluid image'
+        .four.wide.column
+  h4.ui.horizontal.divider.header
+    i.comment.icon
+    |  質問
+  #add-q-pos
+  .field
+    .ui.primary.fluid.button.add-q
+      i.plus.icon
+      |  質問追加
+  .ui.grid
+    .row
+      .sixteen.wide.column
+        button.ui.submit.right.floated.positive.button[type="submit"]
+          i.save.icon
+          |  更新
+script#a-single-tmpl[type="text/x-handlebars-template"]
+  | <div class="fields single">
+      <div class="one wide field">
+        <div class="ui icon red basic button del-a"><i class="trash outline icon"></i></div>
+      </div>
+      <div class="three wide field">
+        <input type="text" value="{{value}}" placeholder="値">
+      </div>
+      <div class="twelve wide field">
+        <input type="text" value="{{text}}" placeholder="表記">
+      </div>
+    </div>
+script#a-multiple-tmpl[type="text/x-handlebars-template"]
+  | <div class="fields multiple" style="display: none;">
+      <div class="one wide field">
+        <div class="ui icon red basic button del-a"><i class="trash outline icon"></i></div>
+      </div>
+      <div class="three wide field">
+        <input type="text" value="{{value}}" placeholder="値">
+      </div>
+      <div class="twelve wide field">
+        <input type="text" value="{{text}}" placeholder="表記">
+      </div>
+    </div>
+script#q-tmpl[type="text/x-handlebars-template"]
+  | <div class="ui clearing segment question" id="q-{{id}}">
+      <input name="surveys[questions_attributes][][id]" type="hidden" value="{{id}}">
+      <input name="surveys[questions_attributes][][_destroy]" type="hidden" value="false">
+      <div class="field {{text_error_class}}">
+        <label>質問</label>
+        <input name="surveys[questions_attributes][][text]" placeholder="質問" type="text" value="{{text}}">
+      </div>
+      <div class="field">
+        <label>画像</label>
+        <input type="file" name="surveys[questions_attributes][][image]">
+      </div>
+      <div class="ui grid">
+        <div class="four wide column"></div>
+        <div class="eight wide column">
+          <img src="{{image.url}}" class="ui image fluid">
+        </div>
+        <div class="four wide column"></div>
+      </div>
+      <div class="field">
+        <label>回答パターン</label>
+        <select name="surveys[questions_attributes][][type]">
+          {{#select type}}
+          <option value="single">選択肢（1つ）</option>
+          <option value="multiple">選択肢（複数）</option>
+          <option value="date">日程調整</option>
+          <option value="free">フリーフォーマット</option>
+          {{/select}}
+        </select>
+      </div>
+      {{#each value_data}}
+        {{> a-single}}
+      {{/each}}
+      {{#each value_data}}
+        {{> a-multiple}}
+      {{/each}}
+      <div class="field single multiple">
+        <input type="hidden" name="surveys[questions_attributes][][value]">
+      </div>
+      <div class="add-a-pos"></div>
+      <div class="field single">
+        <div class="ui default fluid button add-a">
+          <i class="plus icon"></i> 選択肢追加
+        </div>
+      </div>
+      <div class="field multiple" style="display: none;">
+        <div class="ui default fluid button add-a">
+          <i class="plus icon"></i> 選択肢追加
+        </div>
+      </div>
+      <div class="field {{value_error_class}} date" style="display: none;">
+        <label>値</label>
+        <textarea name="surveys[questions_attributes][][value]">{{value}}</textarea>
+      </div>
+      <div class="field">
+        <div class="ui right floated red basic button del-q" data-id="{{id}}">
+          <i class="trash outline icon"></i> 削除
+        </div>
+      </div>
+    </div>
+.ui.small.basic.test.modal.del
+  .ui.icon.header
+    i.trash.outline.icon
+    |  アンケート削除
+  .content
+    p
+      | アンケートを削除すると結果も削除され、2度と見ることが出来なくなります。
+  .actions
+    .ui.basic.cancel.inverted.button
+      i.remove.icon
+      |  キャンセル
+    .ui.red.ok.inverted.button
+      i.checkmark.icon
+      |  削除
+= include_gon
+script
+  | $(function() {
+      var edit = new SurveyEdit();
+      edit.init();
+      $(gon.questions).each(function(i, v) {
+        edit.add_question(v);
+      });
+    });

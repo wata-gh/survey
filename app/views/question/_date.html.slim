@@ -1,0 +1,26 @@
+- ans = JSON.parse(@answer.text || '{"name": "", "comment": "", "detail": "", "date": {}}')
+h2.ui.header
+  | 表示名
+.field
+  = text_field_tag :name, ans['name']
+h2.ui.header
+  | 日にち候補
+- @question.each_date.each.with_index(1) do |v, i|
+  - d = ans['date']
+  .field
+      .ui.mini.horizontal.statistic
+        .value.candidate-date
+          | #{v}
+        .label
+          .ui.basic.buttons data-value="#{v}"
+            button type="button" class="ui huge toggle basic button#{d[v] == '2' ? ' active' : ''}" data-val="2"
+              | ○
+            button type="button" class="ui huge toggle basic button#{d[v] == '1' ? ' active' : ''}" data-val="1"
+              | △
+            button type="button" class="ui huge toggle basic button#{d[v] == '0' ? ' active' : ''}" data-val="0"
+              | ☓
+            input type="hidden" name="#{v}" value="#{d[v]}"
+h2.ui.header
+  | コメント
+.field
+  input type="text" name="comment" value="#{ans['comment']}"

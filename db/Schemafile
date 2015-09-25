@@ -1,0 +1,49 @@
+create_table "answers", force: :cascade do |t|
+  t.integer  "collaborator_id", limit: 4
+  t.integer  "question_id",     limit: 4
+  t.text     "text",            limit: 65535
+  t.datetime "created_at"
+  t.datetime "updated_at"
+end
+
+create_table "collaborators", force: :cascade do |t|
+  t.integer  "surveys_id", limit: 4
+  t.string   "uuid",       limit: 36
+  t.boolean  "status",               default: false
+  t.datetime "created_at"
+  t.datetime "updated_at"
+end
+
+add_index "collaborators", ["surveys_id"], name: "index_collaborators_on_surveys_id", using: :btree
+add_index "collaborators", ["uuid"], name: "index_collaborators_on_uuid", using: :btree
+
+create_table "groups", force: :cascade do |t|
+  t.string   "name",        limit: 255
+  t.string   "description", limit: 255
+  t.datetime "created_at"
+  t.datetime "updated_at"
+end
+
+create_table "questions", force: :cascade do |t|
+  t.integer  "surveys_id", limit: 4
+  t.integer  "no",         limit: 4
+  t.string   "text",       limit: 255
+  t.integer  "type",       limit: 4
+  t.text     "value",      limit: 65535
+  t.string   "image",      limit: 255
+  t.datetime "created_at"
+  t.datetime "updated_at"
+end
+
+add_index "questions", ["surveys_id"], name: "index_questions_on_surveys_id", using: :btree
+
+create_table "surveys", force: :cascade do |t|
+  t.string   "name",             limit: 255
+  t.string   "image",            limit: 255
+  t.integer  "group_id",         limit: 4
+  t.datetime "created_at"
+  t.datetime "updated_at"
+  t.boolean  "is_result_secret",             default: false
+  t.boolean  "is_secret",                    default: false
+  t.string   "hash_key",         limit: 255
+end

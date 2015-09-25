@@ -1,0 +1,41 @@
+h1 class="ui header"
+  = @survey.name
+= form_for @answer, url: @answer.new_record? ? survey_question_answer_index_path(@survey, @question) : survey_question_answer_path(@survey, @question, @answer), html: {class: 'ui form'} do |f|
+  - if @survey.questions.size > 1
+    .ui.ordered.steps.fluid
+      - @survey.questions.each.with_index(1) do |q, i|
+        div class="#{i < @question.no ? 'completed' : i == @question.no ? 'active' : ''} step" data-url="#{survey_question_path(@survey, q)}"
+          .content
+            .title
+              | Q#{i}
+  .ui.fluid.card
+    .content
+      .header
+        span class="q-num"
+          | Q#{@question.no}
+        = @question.text
+    - if @question.image?
+      .ui.grid
+        .four.wide.column
+        .eight.wide.column
+          .image
+            = image_tag @question.image, class: 'ui fluid image'
+        .four.wide.column
+    .content
+      h4 class="ui sub header"
+        = @question.type_comment
+      .ui.small.feed
+        = render partial: "question/#{@question.type}"
+    .extra.content
+      - if @question.prev
+        = link_to survey_question_path(@survey, @question.prev), :class => 'ui small button' do
+          i class="undo icon"
+          | 戻る
+      - if params[:q].to_i < @survey.questions.size
+        button class="ui blue large button right floated" type="submit"
+          i class="checkmark icon"
+          | 次へ
+      - else
+        button class="ui positive large button right floated" type="submit"
+          i class="checkmark icon"
+          | 完了

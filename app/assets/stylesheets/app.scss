@@ -1,0 +1,54 @@
+body {
+  .ui.menu .title.item {
+    padding: 5px 15px 5px 7px;
+    font-size: larger;
+  }
+  .main.container {
+    padding: 60px 2em 7em;
+    .ui.top.attached.warning.message {
+      border-bottom: 1px solid;
+    }
+    table {
+      tbody {
+        tr.secret {
+          background-color: #fff9ea;
+        }
+      }
+    }
+  }
+  .q-num {
+    font-size: xx-large;
+    color: #0E6EB8;
+    padding-right: 10px;
+  }
+  .sel {
+    padding: 5px;
+    input {
+      cursor: pointer;
+    }
+    label {
+      padding-left: 5px;
+      cursor: pointer;
+    }
+  }
+  .card {
+    .content {
+      .ui.sub.header {
+        font-size: larger;
+      }
+      .sel {
+        font-size: larger;
+      }
+    }
+  }
+  .completed.step {
+    cursor: pointer;
+  }
+  .candidate-date {
+    width: 150px;
+    text-align: left;
+  }
+  .collaborated {
+    float: right;
+  }
+}

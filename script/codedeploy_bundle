@@ -1,0 +1,3 @@
+#!/bin/sh
+
+su -l webservice -c 'cd /opt/survey && bundle install --path vendor/bundle'
