@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ ! -f /tmp/unicorn.pid ]; then
+  su -l webservice -c 'cd /opt/survey && bundle exec rake unicorn:start'
+fi
+
+su -l webservice -c 'cd /opt/survey && bundle exec rake unicorn:restart'

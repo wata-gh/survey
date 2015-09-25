@@ -1,0 +1,20 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /opt/survey
+permissions:
+  - object: /opt/survey
+    pattern: "**"
+    owner: webservice
+    group: webservice
+    mode: 755
+hooks:
+  AfterInstall:
+    - location: scripts/codedeploy_bundle
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: script/codedeploy_start
+      timeout: 180
+      runas: root
