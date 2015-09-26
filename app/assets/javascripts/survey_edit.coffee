@@ -36,17 +36,8 @@ class @SurveyEdit
               json.push val
             idx++
         $(@).find('input[type=hidden][name="surveys[questions_attributes][][value]"]').val(JSON.stringify(json))
-    $('.ui.button.red.del').on 'click', ->
-      sid = $(@).data 'sid'
-      $ '.ui.basic.modal.del'
-        .modal {
-          closable: false,
-          onApprove: ->
-            hash_key = $('#hash_key').val()
-            $('#destroy-form').submit()
-            #location.href = "destroy?hash_key=#{hash_key}"
-        }
-        .modal 'show'
+    $('.small-del-button.del').on 'touchend', @show_delete_modal
+    $('.ui.button.red.del').on 'click', @show_delete_modal
     $(document).on 'change', 'select[name^="surveys[questions_attributes]"]', ->
       s = $ @
       s.parents('.question.segment').find('.single,.multiple,.date,.free').hide()
@@ -56,6 +47,18 @@ class @SurveyEdit
       id = $(@).data 'id'
       $("#q-#{id}").find('input[name="surveys[questions_attributes][][_destroy]"]').val('true')
       $("#q-#{id}").fadeOut 200
+
+  show_delete_modal: ->
+    sid = $(@).data 'sid'
+    $ '.ui.basic.modal.del'
+      .modal {
+        closable: false,
+        onApprove: ->
+          hash_key = $('#hash_key').val()
+          $('#destroy-form').submit()
+          #location.href = "destroy?hash_key=#{hash_key}"
+      }
+      .modal 'show'
 
   add_question: (v) =>
     $('#add-q-pos').append(@q_h v)
