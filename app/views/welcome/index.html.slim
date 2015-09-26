@@ -6,29 +6,29 @@ h1.ui.header
 
 - if @surveys.present?
   = paginate @surveys
-  table.ui.basic.compact.table
+  table.ui.basic.compact.unstackable.table
     thead
       tr
-        th.one.wide
+        th.one.wide.computer.only
           | no
-        th.two.wide
+        th.two.wide.computer.only
           | 
         th.seven.wide
           | 名前
         th.two.wide
           | 作成
-        th.two.wide
+        th.two.wide.computer.only
           | 更新
-        th.two.wide
+        th.two.wide.computer.only
           | 編集
         th.two.wide
           | 結果
     tbody
       - @surveys.each do |s|
         tr class="#{s.is_result_secret ? 'secret' : ''}"
-          td
+          td.computer.only
             = s.id
-          td
+          td.computer.only
             - if s.image?
               = image_tag s.image, class: 'ui image tiny'
           td
@@ -38,9 +38,9 @@ h1.ui.header
               = link_to(s.name, survey_path(s))
             - else
               = s.name
-          td.collapsing
+          td.collapsing.computer.only
             = s.created_at.strftime '%Y-%m-%d %H:%M:%S'
-          td.collapsing
+          td.collapsing.computer.only
             = time_ago_in_words s.updated_at
             | 前
           td.collapsing
