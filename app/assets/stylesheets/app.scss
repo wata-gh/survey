@@ -1,3 +1,9 @@
+@media screen and (max-width : 768px) {
+  .computer.only {
+    display: none;
+  }
+}
+
 body {
   .ui.menu .title.item {
     padding: 5px 15px 5px 7px;

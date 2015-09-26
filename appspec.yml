@@ -16,5 +16,5 @@ hooks:
       runas: root
   ApplicationStart:
     - location: script/codedeploy_start
-      timeout: 180
+      timeout: 300
       runas: root
