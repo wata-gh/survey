@@ -1,3 +1,4 @@
 #!/bin/sh
 
+su -l webservice -c 'cd /opt/survey && cp -f config/database.yml.production config/database.yml'
 su -l webservice -c 'cd /opt/survey && bundle install --path vendor/bundle'
