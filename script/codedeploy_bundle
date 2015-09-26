@@ -4,5 +4,5 @@ su -l webservice -c 'cd /opt/survey && cp -f config/database.yml.production conf
 su -l webservice -c 'cd /opt/survey && bundle install --path vendor/bundle'
 su -l webservice -c 'cd /opt/survey && bundle exec ridgepole -c config/database.yml --apply -f db/Schemafile --env production'
 su -l webservice -c 'cd /opt/survey && npm install'
-su -l webservice -c 'cd /opt/survey && ./bin/rake bower:install'
+su -l webservice -c 'cd /opt/survey && bundle exec bower:install'
 su -l webservice -c 'cd /opt/survey && bundle exec rake assets:precompile'
