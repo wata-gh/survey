@@ -3,6 +3,8 @@ os: linux
 files:
   - source: /
     destination: /opt/survey
+  - source: /config/database.yml.production
+    destination: /opt/survey/config/database.yml
 permissions:
   - object: /opt/survey
     pattern: "**"
