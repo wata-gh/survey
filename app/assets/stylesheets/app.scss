@@ -1,7 +1,20 @@
-@media screen and (max-width : 768px) {
+@media screen and (max-width : 375px) {
   .computer.only {
-    display: none;
+    display: none !important;
   }
+}
+@media screen and (min-width : 376px) {
+  .computer.only {
+  }
+  .mobile.only {
+    display: none !important;
+  }
+}
+
+.small-del-button {
+  float: right;
+  font-size: smaller !important;
+  color: darkred;
 }
 
 body {

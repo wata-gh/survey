@@ -1,13 +1,14 @@
 style
   | .fields label:first-of-type { display: block; }
-h1.ui.header
-  | アンケート内容編集
+h2.ui.header
+  | アンケート編集
   - if @survey.is_result_secret
     a.ui.yellow.label
       | SECRET
-  button class="ui red button right floated del" data-sid="#{@survey.id}"
+  button.ui.red.tiny.basic.button.right.floated.del.computer.only data-sid="#{@survey.id}"
     i.trash.outline.icon
-    |  削除
+    | 削除
+  i.close.icon.floated.right.small-del-button.del.mobile.only
   = form_for @survey, url: {action: 'destroy'}, html: {id: 'destroy-form', method: 'delete', multipart: true} do |f|
     = hidden_field_tag :hash_key, @survey.hash_key
 - if @survey.errors.present?
