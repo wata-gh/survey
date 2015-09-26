@@ -50,5 +50,6 @@ test:
 production:
   <<: *default
   database: survey_production
-  username: survey
+  username: survey_prod
   password: <%= ENV['SURVEY_DATABASE_PASSWORD'] %>
+  host: <%= ENV['SURVEY_DATABASE_HOST'] %>
