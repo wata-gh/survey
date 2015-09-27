@@ -1,10 +1,5 @@
 class @SurveyEdit
   constructor: ->
-    @q_h = Handlebars.compile($('#q-tmpl').html())
-    @a_s_h = Handlebars.compile($('#a-single-tmpl').html())
-    @a_m_h = Handlebars.compile($('#a-multiple-tmpl').html())
-    Handlebars.registerPartial 'a-single', $('#a-single-tmpl').html()
-    Handlebars.registerPartial 'a-multiple', $('#a-multiple-tmpl').html()
     Handlebars.registerHelper 'select', (v, o) ->
       $el = $('<select />').html(o.fn(this))
       $el.find('[value="' + v + '"]').attr {'selected': 'selected'}
@@ -19,7 +14,7 @@ class @SurveyEdit
     $(document).on 'click', '.ui.button.del-a', ->
       $(@).parents('.fields').remove()
     $(document).on 'click', '.ui.button.add-a', ->
-      $(this).parents('.field').siblings('.add-a-pos').before($(that.a_s_h()).removeAttr('style'))
+      $(this).parents('.field').siblings('.add-a-pos').before($(JST['survey/single']()).removeAttr('style'))
     $('#form').on 'submit', ->
       $(@).find('.ui.clearing.segment').each ->
         json = []
@@ -56,11 +51,10 @@ class @SurveyEdit
         onApprove: ->
           hash_key = $('#hash_key').val()
           $('#destroy-form').submit()
-          #location.href = "destroy?hash_key=#{hash_key}"
       }
       .modal 'show'
 
   add_question: (v) =>
-    $('#add-q-pos').append(@q_h v)
+    $('#add-q-pos').append(JST['survey/question'] v)
     $('select').dropdown()
     $('select[name^="surveys[questions_attributes]"]', '#q-' + v.id).trigger('change', [true])
