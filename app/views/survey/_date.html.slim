@@ -1,0 +1,28 @@
+div id="container#{i}"
+script
+  | $(function () {
+      Survey.init_date_graph(#{i}, {
+        title:      '#{q.text}',
+        categories: #{q.choices.to_json.html_safe},
+        series:     #{q.sel_sum(i).to_json.html_safe}
+      });
+    });
+table class="ui compact celled unstackable table"
+  thead
+    tr
+      th 日付
+      - q.answers.each do |a|
+        th class="collapsing"
+          = JSON.parse(a.text)['name']
+  tbody
+    - q.choices.each.with_index do |v, j|
+      tr
+        td = v
+        - q.answers.each do |a|
+          td
+            = {'2' => '○', '1' => '△', '0' => '☓'}[JSON.parse(a.text)['date'][v]]
+    tr
+      td
+      - q.answers.each do |a|
+        td
+          = JSON.parse(a.text)['comment']

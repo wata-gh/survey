@@ -1,0 +1,5 @@
+.ui.relaxed.divided.list
+  - q.answers.select {|a| a.text.present? }.each do |a|
+    .item
+      .content
+        = a.text
