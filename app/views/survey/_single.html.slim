@@ -1,0 +1,9 @@
+div id="container#{i}"
+script
+  | $(function () {
+      Survey.init_single_graph(#{i}, {
+        title:      '#{q.text}',
+        categories: [#{q.choices.map {|c| "'#{c[:text]}'"}.join(',').html_safe}],
+        data:       #{q.sel_sum(i).to_json.html_safe}
+      });
+    });
