@@ -9,11 +9,9 @@ h2.ui.header
   table.ui.basic.compact.unstackable.table
     thead
       tr
-        th.one.wide.computer.only
-          | no
         th.two.wide.computer.only
           | 
-        th.seven.wide
+        th.eight.wide
           | 名前
         th.two.wide
           | 作成
@@ -26,8 +24,6 @@ h2.ui.header
     tbody
       - @surveys.each do |s|
         tr class="#{s.is_result_secret ? 'secret' : ''}"
-          td.computer.only
-            = s.id
           td.computer.only
             - if s.image?
               = image_tag s.image, class: 'ui image tiny'
