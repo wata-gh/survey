@@ -9,13 +9,14 @@ CarrierWave.configure do |config|
 
   case Rails.env
     when 'production'
-      config.fog_directory = 'dummy'
-      config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/dummy'
+      config.fog_directory = 'survey.bizevo.net'
+      config.fog_public = true
+      config.cache_storage = :fog
+      config.cache_dir = "#{Rails.root}/tmp/uploads"
 
     when 'development'
       config.storage = :fog
       config.fog_directory = 'survey-develop'
-      #config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/survey-develop'
       config.fog_public = true
       config.cache_storage = :fog
       config.cache_dir = "#{Rails.root}/tmp/uploads"
