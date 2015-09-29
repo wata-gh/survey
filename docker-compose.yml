@@ -1,0 +1,5 @@
+imagesrv:
+  build: .
+  ports:
+    - '8080:80'
+  command: "/usr/sbin/nginx -g 'daemon off;' -c /etc/nginx/nginx.conf"
