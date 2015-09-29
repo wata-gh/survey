@@ -12,7 +12,9 @@
   <div class="ui grid">
     <div class="four wide column"></div>
     <div class="eight wide column">
-      <img src="{{image.url}}" class="ui image fluid">
+      {{#if resize_image_url}}
+      <img src="{{#resize_image_url resize_image_url dw="400" dh="400"}}{{/resize_image_url}}" class="ui image fluid">
+      {{/if}}
     </div>
     <div class="four wide column"></div>
   </div>

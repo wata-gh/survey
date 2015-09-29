@@ -13,7 +13,7 @@ CarrierWave.configure do |config|
       config.fog_public = true
       config.cache_storage = :fog
       config.cache_dir = "#{Rails.root}/tmp/uploads"
-      config.asset_host = 'http://dwwbl7tdzzvdf.cloudfront.net'
+      config.asset_host = Survey::Application.config.image_asset_host
 
     when 'development'
       config.storage = :fog
@@ -21,6 +21,7 @@ CarrierWave.configure do |config|
       config.fog_public = true
       config.cache_storage = :fog
       config.cache_dir = "#{Rails.root}/tmp/uploads"
+      config.asset_host = Survey::Application.config.image_asset_host
 
     when 'test'
       config.fog_directory = 'test.dummy'
