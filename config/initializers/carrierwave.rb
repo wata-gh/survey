@@ -13,7 +13,7 @@ CarrierWave.configure do |config|
       config.fog_public = true
       config.cache_storage = :fog
       config.cache_dir = "#{Rails.root}/tmp/uploads"
-      config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/survey.bizevo.net'
+      config.asset_host = 'http://dwwbl7tdzzvdf.cloudfront.net'
 
     when 'development'
       config.storage = :fog
