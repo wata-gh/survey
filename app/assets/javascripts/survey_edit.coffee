@@ -4,10 +4,9 @@ class @SurveyEdit
       $el = $('<select />').html(o.fn(this))
       $el.find('[value="' + v + '"]').attr {'selected': 'selected'}
       $el.html()
-    Handlebars.registerHelper 'select', (v, o) ->
-      $el = $('<select />').html(o.fn(this))
-      $el.find('[value="' + v + '"]').attr {'selected': 'selected'}
-      $el.html()
+    Handlebars.registerHelper 'resize_image_url', (url, opt) ->
+      return '' if url == null
+      url.replace(':dw', opt.hash.dw).replace(':dh', opt.hash.dh)
 
   init: =>
     that = @

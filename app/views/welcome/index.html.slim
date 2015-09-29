@@ -26,7 +26,7 @@ h2.ui.header
         tr class="#{s.is_result_secret ? 'secret' : ''}"
           td.computer.only
             - if s.image?
-              = image_tag s.image, class: 'ui image tiny'
+              = image_tag_resize s.image, dw: 50, dh: 50, class: 'ui image'
           td
             - if s.is_result_secret
               i.lock.icon
