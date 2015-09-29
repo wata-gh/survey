@@ -12,23 +12,27 @@ class AnswerController < ApplicationController
     q = s.questions.first
     c = s.collaborators.first
 
-    if q.date?
-      t = {}
-      q.each_date.each {|d| t[d] = params[d]}
-      params[:answer] = {
-        text: {
-          name:    params[:name],
-          comment: params[:comment],
-          date:    t,
-        }.to_json
-      }
-    end
+    if params[:answer].present?
+      if q.date?
+        t = {}
+        q.each_date.each {|d| t[d] = params[d]}
+        params[:answer] = {
+          text: {
+            name:    params[:name],
+            comment: params[:comment],
+            date:    t,
+          }.to_json
+        }
+      end
 
-    a = c.answers.where(question_id: q.id).first_or_initialize answer_params
-    # override text if question is multiple
-    a.text = params[:answer][:text].to_json if q.multiple?
-    a.text = params[:answer][:text] if q.date?
-    a.save!
+      a = c.answers.where(question_id: q.id).first_or_initialize answer_params
+      # override text if question is multiple
+      a.text = params[:answer][:text].to_json if q.multiple?
+      a.text = params[:answer][:text] if q.date?
+      a.save!
+    else
+      c.answers.where(question_id: q.id).destroy_all
+    end
 
     return redirect_to survey_question_path(s, q.next) if q.next
     c.done!
