@@ -80,6 +80,11 @@ class SurveyController < ApplicationController
   end
 
   def set_questions
-    gon.questions = @survey.questions.as_json(:methods => [:error_class, :text_error_class, :value_error_class, :value_data])
+    gon.questions = @survey.questions.as_json({
+      methods: [
+        :error_class, :text_error_class, :value_error_class, :value_data,
+        :resize_image_url
+      ],
+    })
   end
 end

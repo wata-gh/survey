@@ -2,12 +2,12 @@ class UploaderBase < CarrierWave::Uploader::Base
   include CarrierWave::RMagick
   storage :fog
 
-  def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-  end
-
   def filename
     "#{secure_token}.#{file.extension}" if original_filename.present?
+  end
+
+  def store_dir
+    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
   protected

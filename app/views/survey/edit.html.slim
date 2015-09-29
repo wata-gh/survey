@@ -54,7 +54,7 @@ h2.ui.header
         .four.wide.column
         .eight.wide.column
           .image
-            = image_tag @survey.image, class: 'ui fluid image'
+            = image_tag_resize @survey.image, dw: 400, dh: 400, class: 'ui fluid image'
         .four.wide.column
   h4.ui.horizontal.divider.header
     i.comment.icon

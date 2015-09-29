@@ -19,7 +19,7 @@ h1 class="ui header"
         .four.wide.column
         .eight.wide.column
           .image
-            = image_tag @question.image, class: 'ui fluid image'
+            = image_tag_resize @question.image, dw: 400, dh: 400, class: 'ui fluid image'
         .four.wide.column
     .content
       h4 class="ui sub header"

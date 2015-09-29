@@ -45,7 +45,7 @@ h4 class="ui horizontal divider header"
           - if q.image?
             .row
               .image
-                = image_tag q.image, class: 'ui fluid image'
+                = image_tag_resize q.image, dw: 400, dh: 400, class: 'ui fluid image'
         - if q.single? || q.multiple? || q.date?
           .content
             .ui.list
