@@ -1,5 +1,5 @@
 class SurveyController < ApplicationController
-  before_action :find_survey, only: [:edit, :update, :show, :question, :answer, :result]
+  before_action :find_survey, only: [:edit, :update, :destroy, :show, :question, :answer, :result]
   before_action :check_result_secret, only: [:edit, :update, :result]
 
   def index
