@@ -30,9 +30,9 @@ $ ->
         location.href = "#{location.href}survey/#{sid}/edit#{h}"
     onApprove: ->
       n = $('#name').val()
-      s = 'f'
+      s = false
       if $('#is_result_secret').prop('checked')
-        s = 't'
+        s = true
       $.post 'survey', {surveys: {name: n, is_result_secret: s, hash_key: ''}}
         .done (r) ->
           if r.is_success != 1
