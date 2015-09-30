@@ -77,7 +77,10 @@ class SurveyController < ApplicationController
   end
 
   def survey_params
-    params.require(:surveys).permit(:name, :is_result_secret, :is_secret, :image, questions_attributes: [:id, :text, :type, :value, :no, :_destroy, :image, :image_cache])
+    params.require(:surveys).permit(:name, :is_result_secret, :is_secret, :image, :remove_image,
+      questions_attributes: [
+        :id, :text, :type, :value, :no, :_destroy, :image, :image_cache, :remove_image
+      ])
   end
 
   def set_questions

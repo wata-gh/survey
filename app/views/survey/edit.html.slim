@@ -53,8 +53,15 @@ h2.ui.header
       .ui.grid
         .four.wide.column
         .eight.wide.column
-          .image
-            = image_tag_resize @survey.image, dw: 400, dh: 400, class: 'ui fluid image'
+          .blurring.dimmable.image.survey-image
+            .ui.dimmer
+              .content
+                .center
+                  .ui.inverted.button.del-i
+                    | 削除
+            .image
+              = image_tag_resize @survey.image, dw: 400, dh: 400, class: 'ui fluid image'
+          input type="hidden" name="surveys[remove_image]" value="false"
         .four.wide.column
   h4.ui.horizontal.divider.header
     i.comment.icon

@@ -19,7 +19,6 @@ class @SurveyEdit
         $(@).find('div.fields:hidden,div.field:hidden').remove()
         json = $.map $(@).find('.fields.single,.fields.multiple').find('input[type=text]'), (v, idx) ->
           {value: "" + (idx + 1), text: $(v).val()}
-        console.debug json
         $(@).find('input[type=hidden][name="surveys[questions_attributes][][value]"]').val(JSON.stringify(json))
     $('.small-del-button.del').on 'touchend', @show_delete_modal
     $('.ui.button.red.del').on 'click', @show_delete_modal
@@ -36,6 +35,13 @@ class @SurveyEdit
       else
         $(@).parents('.question').fadeOut 200, ->
           $(@).remove()
+    $(document).on 'click', '.del-qi', ->
+      $(@).parents('.question-image').transition('jiggle').transition('scale')
+        .parent().find('input[name="surveys[questions_attributes][][remove_image]"]').val(true)
+    $('.survey-image').dimmer {on: 'hover'}
+    $(document).on 'click', '.del-i', ->
+      $(@).parents('.survey-image').transition('jiggle').transition('scale')
+        .parent().find('input[name="surveys[remove_image]"]').val(true)
 
   show_delete_modal: ->
     sid = $(@).data 'sid'
@@ -52,3 +58,4 @@ class @SurveyEdit
     $('#add-q-pos').append(JST['survey/question'] v)
     $('select').dropdown()
     $('select[name^="surveys[questions_attributes]"]', '#q-' + v.id).trigger('change', [true])
+    $('.question-image', '#q-' + v.id).dimmer {on: 'hover'}
