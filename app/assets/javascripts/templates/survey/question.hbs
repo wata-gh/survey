@@ -13,8 +13,18 @@
     <div class="four wide column"></div>
     <div class="eight wide column">
       {{#if resize_image_url}}
-      <img src="{{#resize_image_url resize_image_url dw="400" dh="400"}}{{/resize_image_url}}" class="ui image fluid">
+      <div class="blurring dimmable image question-image">
+        <div class="ui dimmer">
+          <div class="content">
+            <div class="center">
+              <div class="ui inverted button del-qi">削除</div>
+            </div>
+          </div>
+        </div>
+        <img src="{{#resize_image_url resize_image_url dw="400" dh="400"}}{{/resize_image_url}}" class="ui image fluid">
+      </div>
       {{/if}}
+      <input type="hidden" name="surveys[questions_attributes][][remove_image]" value="false">
     </div>
     <div class="four wide column"></div>
   </div>
