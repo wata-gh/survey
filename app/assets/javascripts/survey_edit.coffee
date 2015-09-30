@@ -16,19 +16,10 @@ class @SurveyEdit
       $(this).parents('.field').siblings('.add-a-pos').before($(JST['survey/single']()).removeAttr('style'))
     $('#form').on 'submit', ->
       $(@).find('.ui.clearing.segment').each ->
-        json = []
         $(@).find('div.fields:hidden,div.field:hidden').remove()
-        $(@).find('.fields.single,.fields.multiple').each ->
-          val = {}
-          idx = 0
-          $(@).find('input[type=text]').each ->
-            if idx % 2 == 0
-              val = {}
-              val['value'] = $(@).val()
-            else if idx % 2 == 1
-              val['text'] = $(@).val()
-              json.push val
-            idx++
+        json = $.map $(@).find('.fields.single,.fields.multiple').find('input[type=text]'), (v, idx) ->
+          {value: "" + (idx + 1), text: $(v).val()}
+        console.debug json
         $(@).find('input[type=hidden][name="surveys[questions_attributes][][value]"]').val(JSON.stringify(json))
     $('.small-del-button.del').on 'touchend', @show_delete_modal
     $('.ui.button.red.del').on 'click', @show_delete_modal
@@ -39,8 +30,12 @@ class @SurveyEdit
     $('.add-q').on 'click', @add_question
     $(document).on 'click', '.del-q', ->
       id = $(@).data 'id'
-      $("#q-#{id}").find('input[name="surveys[questions_attributes][][_destroy]"]').val('true')
-      $("#q-#{id}").fadeOut 200
+      if id
+        $("#q-#{id}").find('input[name="surveys[questions_attributes][][_destroy]"]').val('true')
+        $("#q-#{id}").fadeOut 200
+      else
+        $(@).parents('.question').fadeOut 200, ->
+          $(@).remove()
 
   show_delete_modal: ->
     sid = $(@).data 'sid'

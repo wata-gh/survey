@@ -46,6 +46,7 @@ class SurveyController < ApplicationController
       redirect_to ({action: 'edit', hash_key: @survey.hash_key}), notice: '更新に成功しました。'
     rescue
       set_questions
+      flash.now[:alert] = '更新に失敗しました。'
       render action: 'edit'
     end
   end
@@ -60,7 +61,7 @@ class SurveyController < ApplicationController
       end
       redirect_to ({controller: 'welcome', action: 'index'}), :notice => 'アンケートの削除に成功しました。'
     rescue
-      gon.questions = @survey.questions.as_json(:methods => [:error_class, :text_error_class, :value_error_class, :value_data])
+      set_questions
       flash.now[:alert] = '削除に失敗しました。'
       render action: 'edit'
     end
