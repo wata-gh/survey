@@ -21,34 +21,27 @@ $ ->
 
   reg = false
   sid = null
+  hash = null
 
   $('.ui.modal.reg').modal 'setting', {
     onHide: ->
-      if reg
-        h = $('#hash_key').val()
-        h = "?hash_key=#{h}" if h != ''
-        location.href = "#{location.href}survey/#{sid}/edit#{h}"
+      return unless reg
+      h = if hash then "?hash_key=#{hash}" else ''
+      location.href = "#{location.href}survey/#{sid}/edit#{h}"
     onApprove: ->
-      n = $('#name').val()
-      s = false
-      if $('#is_result_secret').prop('checked')
-        s = true
-      $.post 'survey', {surveys: {name: n, is_result_secret: s, hash_key: ''}}
+      s = $('#is_result_secret').prop('checked')
+      $.post 'survey', {surveys: {name: $('#name').val(), is_result_secret: s, hash_key: ''}}
         .done (r) ->
-          if r.is_success != 1
-            alert 'validate error'
-            return
-          reg = r.is_success == 1
+          return alert 'アンケートのタイトルを入れてください' if r.is_success != 1
+          reg = true
           survey = r.results
           sid = survey.id
-          if survey.is_result_secret
-            $('#hash_key').val r.results.hash_key
-          $ '.ui.modal'
-            .modal 'hide'
+          hash = r.results.hash_key if survey.is_result_secret
+          $('.ui.modal.reg').modal 'hide'
       false
   }
   $('.new').on 'click', ->
-    $('.ui.modal.reg').modal('show')
+    $('.ui.modal.reg').modal 'show'
 
   $('.completed.step').on 'click', ->
-    location.href = $(this).data('url')
+    location.href = $(this).data 'url'
