@@ -1,0 +1,28 @@
+.ui.divider
+.ui.stackable.grid
+  .ui.six.wide.column
+    .ui.fluid.blue.card
+      .content
+        .header
+          span class="q-num"
+            | Q#{i}.
+          = q.text
+        - if q.image?
+          .row
+            .image
+              = image_tag_resize q.image, dw: 400, dh: 400, class: 'ui fluid image'
+      - if q.single? || q.multiple? || q.date?
+        .content
+          .ui.list
+            - q.choices.each do |v|
+              .item
+                = q.date? ? v : v[:value]
+                = q.date? ? '' : v[:text]
+      .extra.content
+        span
+          i class="checkmark icon"
+          = q.type_name
+  .ui.ten.wide.column
+    .ui.fluid.card style="overflow: auto;"
+      .content
+        = render partial: "survey/#{q.type}", locals: {i: i, q: q}
