@@ -30,18 +30,18 @@ class @SurveyEdit
     $(document).on 'click', '.del-q', ->
       id = $(@).data 'id'
       if id
-        $("#q-#{id}").find('input[name="surveys[questions_attributes][][_destroy]"]').val('true')
+        $("#q-#{id}").find('input[name="surveys[questions_attributes][][_destroy]"]').val true
         $("#q-#{id}").fadeOut 200
       else
         $(@).parents('.question').fadeOut 200, ->
           $(@).remove()
     $(document).on 'click', '.del-qi', ->
       $(@).parents('.question-image').transition('jiggle').transition('scale')
-        .parent().find('input[name="surveys[questions_attributes][][remove_image]"]').val(true)
+        .parent().find('input[name="surveys[questions_attributes][][remove_image]"]').val true
     $('.survey-image').dimmer {on: 'hover'}
     $(document).on 'click', '.del-i', ->
       $(@).parents('.survey-image').transition('jiggle').transition('scale')
-        .parent().find('input[name="surveys[remove_image]"]').val(true)
+        .parent().find('input[name="surveys[remove_image]"]').val true
 
   show_delete_modal: ->
     sid = $(@).data 'sid'
