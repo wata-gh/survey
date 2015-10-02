@@ -9,7 +9,7 @@ end
 create_table "collaborators", force: :cascade do |t|
   t.integer  "surveys_id", limit: 4
   t.string   "uuid",       limit: 36
-  t.boolean  "status",               default: false
+  t.boolean  "status",                default: false
   t.datetime "created_at"
   t.datetime "updated_at"
 end
@@ -28,7 +28,7 @@ create_table "questions", force: :cascade do |t|
   t.integer  "surveys_id", limit: 4
   t.integer  "no",         limit: 4
   t.string   "text",       limit: 255
-  t.integer  "type",       limit: 4
+  t.string   "type",       limit: 255
   t.text     "value",      limit: 65535
   t.string   "image",      limit: 255
   t.datetime "created_at"
