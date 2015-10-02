@@ -1,3 +1,3 @@
-Group.find_or_create_by name: 'survey' do |g|
-  g.description = 'public group'
+Group.find_or_create_by name: '' do |g|
+  g.description = 'default group'
 end

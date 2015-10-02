@@ -25,7 +25,7 @@ class @SurveyEdit
     $(document).on 'change', 'select[name^="surveys[questions_attributes]"]', ->
       s = $ @
       s.parents('.question.segment').find('.single,.multiple,.date,.free').hide()
-      s.parents('.question.segment').find(".#{s.val()}").show()
+      s.parents('.question.segment').find(".#{s.val().charAt(0).toLowerCase() + s.val().slice(1).replace('Choice', '')}").show()
     $('.add-q').on 'click', @add_question
     $(document).on 'click', '.del-q', ->
       id = $(@).data 'id'
