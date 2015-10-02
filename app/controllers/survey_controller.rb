@@ -87,7 +87,7 @@ class SurveyController < ApplicationController
     gon.questions = @survey.questions.as_json({
       methods: [
         :error_class, :text_error_class, :value_error_class, :value_data,
-        :resize_image_url
+        :resize_image_url, :type
       ],
     })
   end

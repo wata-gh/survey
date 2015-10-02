@@ -1,16 +1,14 @@
 class Question < ActiveRecord::Base
-  self.inheritance_column = :_type_disabled
   mount_uploader :image, QuestionUploader
   belongs_to :surveys
   has_many :answers
   validates_presence_of :text
   validate :json_format
-
   enum type: {
-    single:   1,
-    multiple: 2,
-    date:     8,
-    free:     9,
+    single:   'SingleChoice',
+    multiple: 'MultipleChoice',
+    date:     'DateChoice',
+    free:     'FreeChoice',
   }
 
   def prev
