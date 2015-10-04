@@ -1,11 +1,11 @@
 class DateChoice < Question
-  def sel_sum i
+  def sel_sum
     r = [
       {:name => '△', :data => [0] * self.choices.size},
       {:name => '○', :data => [0] * self.choices.size},
     ]
     choices = self.choices
-    self.answers(i).each do |a|
+    self.answers.each do |a|
       j = JSON.parse a.text
       j['date'].each do |k, v|
         i = choices.index k

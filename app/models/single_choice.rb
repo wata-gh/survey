@@ -1,6 +1,6 @@
 class SingleChoice < Question
-  def sel_sum i
-    s = self.answers(i).group(:text).count(:text)
+  def sel_sum
+    s = self.answers.group(:text).count(:text)
     self.choices.inject([]) do |r, c|
       r << {
         name: c[:text],
