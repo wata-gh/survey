@@ -4,6 +4,6 @@ script
       Survey.init_multile_graph(#{i}, {
         title:      '#{q.text}',
         categories: [#{q.choices.map {|c| "'#{c[:text]}'"}.join(',').html_safe}],
-        data:       #{q.sel_sum(i).to_json.html_safe}
+        data:       #{q.sel_sum.to_json.html_safe}
       });
     });

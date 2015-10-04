@@ -4,7 +4,7 @@ script
       Survey.init_date_graph(#{i}, {
         title:      '#{q.text}',
         categories: #{q.choices.to_json.html_safe},
-        series:     #{q.sel_sum(i).to_json.html_safe}
+        series:     #{q.sel_sum.to_json.html_safe}
       });
     });
 table class="ui compact celled unstackable table"

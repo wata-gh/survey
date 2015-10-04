@@ -4,6 +4,13 @@ class Surveys < ActiveRecord::Base
   has_many :collaborators, :dependent => :destroy
   scope :my_collab, ->(uuid) { where(collaborators: {uuid: uuid}) }
   scope :current_group, ->(subdomain) { joins(:group).where(groups: {name: subdomain}) }
+  scope :my_answer, ->(params, uuid) {
+    eager_load(:questions, :collaborators).find_by({
+      id: params[:survey_id],
+      questions:     {id:   params[:question_id]},
+      collaborators: {uuid: uuid},
+    })
+  }
   validates_presence_of :name
   validates_presence_of :questions, :on => :update
   paginates_per 10
