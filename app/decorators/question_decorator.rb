@@ -23,8 +23,7 @@ module QuestionDecorator
   end
 
   def choices
-    return self.value.split("\n").map(&:chomp) if self.date?
-    JSON.parse(self.value, {:symbolize_names => true})
+    @choices ||= self.date? ? self.value.split("\n").map(&:chomp) : JSON.parse(self.value, {:symbolize_names => true})
   end
 
   def error_class
