@@ -1,19 +1,14 @@
 class AnswerController < ApplicationController
+  before_action :find_info, only: [:create, :update]
+
   def create
-    s = Surveys.current_group(request.subdomain).my_answer params, session[:uuid]
-    q = s.questions.first
-    c = s.collaborators.first
-    a = c.answers.where(question_id: q.id).first_or_initialize
+    @answer.attributes = answer_params
+    # override text if question is multiple or date
+    @answer.text = params.fetch(:answer, {})[:text].to_json if @question.multiple? || @question.date?
+    @answer.save!
 
-    if params[:answer].present?
-      a.attributes = answer_params
-      # override text if question is multiple or date
-      a.text = params[:answer][:text].to_json if q.multiple? || q.date?
-    end
-    a.save!
-
-    return redirect_to survey_question_path(s, q.next) if q.next
-    c.done!
+    return redirect_to survey_question_path(@survey, @question.next) if @question.next
+    @collaborator.done!
     redirect_to finish_survey_path
   end
 
@@ -21,6 +16,13 @@ class AnswerController < ApplicationController
 
   private
   def answer_params
-    params.require(:answer).permit :text
+    params.fetch(:answer, {text: ''}).permit :text
+  end
+
+  def find_info
+    @survey = Surveys.current_group(request.subdomain).my_answer params, session[:uuid]
+    @question = @survey.questions.first
+    @collaborator = @survey.collaborators.first
+    @answer = @collaborator.answers.where(question_id: @question.id).first_or_initialize
   end
 end

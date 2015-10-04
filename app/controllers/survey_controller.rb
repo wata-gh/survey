@@ -36,13 +36,9 @@ class SurveyController < ApplicationController
     begin
       Surveys.transaction do
         params[:surveys].delete :hash_key
-        params[:surveys][:questions_attributes].each.with_index(1) do |q, i|
-          q[:no] = i
-        end
+        params[:surveys][:questions_attributes].each.with_index(1) {|q, i| q[:no] = i}
         @survey.update! survey_params
       end
-      par = {:id => @survey.id}
-      par[:hash_key] = @survey.hash_key if @survey.is_secret
       redirect_to ({action: 'edit', hash_key: @survey.hash_key}), notice: '更新に成功しました。'
     rescue
       set_questions
