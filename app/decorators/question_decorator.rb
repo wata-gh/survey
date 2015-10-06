@@ -35,10 +35,4 @@ module QuestionDecorator
   def value_error_class
     self.errors[:value].present? ? 'error' : ''
   end
-
-  def resize_image_url
-    return '' unless self.image.url
-    path = self.image.url.gsub Survey::Application.config.image_asset_host, ''
-    File.join Survey::Application.config.image_asset_host, "/resize/w/:dw/h/:dh/", path
-  end
 end
