@@ -25,7 +25,7 @@ h1 class="ui header"
       h4 class="ui sub header"
         = @question.type_comment
       .ui.small.feed
-        = render partial: "question/#{@question.type}"
+        = render partial: "question/#{@question.type.underscore}"
     .extra.content
       - if @question.prev
         = link_to survey_question_path(@survey, @question.prev), :class => 'ui small button' do

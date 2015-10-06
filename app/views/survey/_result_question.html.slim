@@ -11,13 +11,13 @@
           .row
             .image
               = image_tag_resize q.image, dw: 400, dh: 400, class: 'ui fluid image'
-      - if q.single? || q.multiple? || q.date?
+      - if q.single_choice? || q.multiple_choice? || q.date_choice?
         .content
           .ui.list
             - q.choices.each do |v|
               .item
-                = q.date? ? v : v[:value]
-                = q.date? ? '' : v[:text]
+                = q.date_choice? ? v : v[:value]
+                = q.date_choice? ? '' : v[:text]
       .extra.content
         span
           i class="checkmark icon"
@@ -25,4 +25,4 @@
   .ui.ten.wide.column
     .ui.fluid.card style="overflow: auto;"
       .content
-        = render partial: "survey/#{q.type}", locals: {i: i, q: q}
+        = render partial: "survey/#{q.type.underscore}", locals: {i: i, q: q}
