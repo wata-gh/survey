@@ -1,15 +1,10 @@
 class Question < ActiveRecord::Base
+  include ActiveRecord::Sti::Enum
   mount_uploader :image, QuestionUploader
   belongs_to :surveys
   has_many :answers
   validates_presence_of :text
   validate :json_format
-  enum type: {
-    single:   'SingleChoice',
-    multiple: 'MultipleChoice',
-    date:     'DateChoice',
-    free:     'FreeChoice',
-  }
 
   def prev
     @prev ||= Question.find_by surveys_id: self.surveys_id, no: self.no - 1
@@ -26,7 +21,7 @@ class Question < ActiveRecord::Base
   protected
 
   def json_format
-    if self.single? || self.multiple?
+    if self.single_choice? || self.multiple_choice?
       begin
         JSON.parse self.value
       rescue
