@@ -4,7 +4,7 @@ class AnswerController < ApplicationController
   def create
     @answer.attributes = answer_params
     # override text if question is multiple or date
-    @answer.text = params.fetch(:answer, {})[:text].to_json if @question.multiple? || @question.date?
+    @answer.text = params.fetch(:answer, {})[:text].to_json if @question.multiple_choice? || @question.date_choice?
     @answer.save!
 
     return redirect_to survey_question_path(@survey, @question.next) if @question.next
