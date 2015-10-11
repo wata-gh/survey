@@ -20,9 +20,9 @@ class AnswerController < ApplicationController
   end
 
   def find_info
-    @survey = Surveys.current_group(request.subdomain).my_answer params, session[:uuid]
-    @question = @survey.questions.first
-    @collaborator = @survey.collaborators.first
+    @question = Question.find_by id: params[:question_id]
+    @survey = @question.surveys
+    @collaborator = @survey.collaborators.find_by uuid: session[:uuid]
     @answer = @collaborator.answers.where(question_id: @question.id).first_or_initialize
   end
 end

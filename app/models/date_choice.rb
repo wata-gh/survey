@@ -9,10 +9,6 @@ class DateChoice < Question
     end
   end
 
-  def value_data
-    {dates: self.value.split("\n").map(&:chomp)}
-  end
-
   private
   def increment r, j
     j['date'].each do |k, v|

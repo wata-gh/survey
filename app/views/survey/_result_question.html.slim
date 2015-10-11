@@ -11,7 +11,7 @@
           .row
             .image
               = image_tag_resize q.image, dw: 400, dh: 400, class: 'ui fluid image'
-      - if q.single_choice? || q.multiple_choice? || q.date_choice?
+      - if q.choice?
         .content
           .ui.list
             - q.choices.each do |v|

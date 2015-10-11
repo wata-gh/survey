@@ -60,6 +60,8 @@ GEM
     builder (3.2.2)
     byebug (5.0.0)
       columnize (= 0.9.0)
+    code_analyzer (0.4.5)
+      sexp_processor
     coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -68,6 +70,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    colored (1.2)
     colorize (0.7.7)
     columnize (0.9.0)
     commonjs (0.2.7)
@@ -280,6 +283,15 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
+    rails_best_practices (1.15.7)
+      activesupport
+      code_analyzer (>= 0.4.3)
+      colored
+      erubis
+      i18n
+      json
+      require_all
+      ruby-progressbar
     railties (4.2.4)
       actionpack (= 4.2.4)
       activesupport (= 4.2.4)
@@ -290,6 +302,7 @@ GEM
     rdoc (4.2.0)
     ref (2.0.0)
     request_store (1.2.0)
+    require_all (1.3.2)
     ridgepole (0.6.2)
       activerecord (~> 4.2.1)
     rmagick (2.15.4)
@@ -310,6 +323,7 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
+    ruby-progressbar (1.7.5)
     sass (3.4.18)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -323,6 +337,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sexp_processor (4.6.0)
     slim (3.0.6)
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
@@ -389,6 +404,7 @@ DEPENDENCIES
   pry-stack_explorer
   quiet_assets
   rails (= 4.2.4)
+  rails_best_practices
   ridgepole
   rmagick
   rspec-rails

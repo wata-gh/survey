@@ -62,6 +62,7 @@ group :development, :test do
   gem 'pry-doc'
   gem 'pry-byebug'
   gem 'pry-stack_explorer'
+  gem 'rails_best_practices'
 end
 
 group :development do
