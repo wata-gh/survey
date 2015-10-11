@@ -6,9 +6,4 @@ class MultipleChoice < Question
     end
     choices.inject [] {|r, c| r << s[c[:value]]}
   end
-
-  def value_data
-    JSON.parse value
-  end
-
 end

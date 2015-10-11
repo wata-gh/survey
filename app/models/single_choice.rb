@@ -8,9 +8,4 @@ class SingleChoice < Question
       }
     end
   end
-
-  def value_data
-    JSON.parse self.value
-  end
-
 end

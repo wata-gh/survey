@@ -43,7 +43,7 @@ class SurveyController < ApplicationController
     rescue
       set_questions
       flash.now[:alert] = '更新に失敗しました。'
-      render action: 'edit'
+      render :edit
     end
   end
 
@@ -59,7 +59,7 @@ class SurveyController < ApplicationController
     rescue
       set_questions
       flash.now[:alert] = '削除に失敗しました。'
-      render action: 'edit'
+      render :edit
     end
   end
 
