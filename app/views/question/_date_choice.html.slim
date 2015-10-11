@@ -1,11 +1,11 @@
-- ans = JSON.parse(@answer.text || '{"name": "", "comment": "", "detail": "", "date": {}}')
+- ans = JSON.parse(a.text || '{"name": "", "comment": "", "detail": "", "date": {}}')
 h2.ui.header
   | 表示名
 .field
   = text_field_tag 'answer[text][name]', ans['name']
 h2.ui.header
   | 日にち候補
-- @question.each_date.each.with_index(1) do |v, i|
+- q.each_date.each.with_index(1) do |v, i|
   - d = ans['date']
   .field
       .ui.mini.horizontal.statistic

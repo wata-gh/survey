@@ -18,12 +18,6 @@ class Question < ActiveRecord::Base
     self.value.split("\n").map(&:chomp)
   end
 
-  def resize_image_url
-    return '' unless self.image.url
-    path = self.image.url.gsub Survey::Application.config.image_asset_host, ''
-    File.join Survey::Application.config.image_asset_host, "/resize/w/:dw/h/:dh/", path
-  end
-
   protected
 
   def json_format
