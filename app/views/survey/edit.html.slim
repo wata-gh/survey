@@ -97,6 +97,7 @@ script
       var edit = new SurveyEdit();
       edit.init();
       $(gon.questions).each(function(i, v) {
+        v.value_data = JSON.parse(v.value)
         edit.add_question(v);
       });
     });
